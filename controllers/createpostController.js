@@ -9,6 +9,7 @@ function createPost(req, res) {
             content:req.body.content,
             created_at:new Date()
         })
+        res.redirect("/")
     } catch (error) {
       res.render("error", {
         message:

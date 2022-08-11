@@ -14,13 +14,27 @@ block content
   h1= title
   p=`req.user is ${req.user}`
   p=`req.user is ${req.isAuthenticated()}`
+  if req.isAuthenticated()
+    form(action="/createpost" method="post")
+      div= `author:${req.user.username}`
+      label(for="content") 
+      input(type="text" required minlength="1" name="content" id="content")
+      button(type="submit") Submit Post
   each post in posts
     div
-      if req.user.status!=="normal"
-        p= post.author
-        p= post.created_at
+      if !req.isAuthenticated()
+        p
+          i anonymus created sometime in the past
+      else if req.user.status!=="normal"
+        p= post.author.username
+        img(src=post.author.profile_picture.link)
+        p= post.created_at.toLocaleString()
+
+      else if req.user._id.toString()===post.author._id.toString()
+        p= post.author.username
+        img(src=post.author.profile_picture.link)
+        p= post.created_at.toLocaleString()
       else
         p
-          i anonymus
-          i created sometime in the past
+          i anonymus created sometime in the past
       p=post.content

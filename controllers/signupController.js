@@ -19,13 +19,17 @@ function signUpUser(req, res) {
         if (err) throw new Error("error occured during password generation");
         if (req.body.confirm_password !== req.body.password)
           throw new Error("password is not equal to confirmed password");
-        await User.create({
+        const user=await User.create({
           username: req.body.username,
           password: hashedPassword,
           profile_picture: req.body.pictures,
           status: "normal",
         });
-        res.redirect("/");
+        req.login(user,function(err){
+          if(err) throw new Error("Auto login error")
+          res.redirect("/");
+        })
+        // res.redirect("/");
       } catch (error) {
         res.render("error", {
           message:
