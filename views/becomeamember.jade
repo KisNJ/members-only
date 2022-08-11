@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    form(action="/signup/becomeamember", method="post")
+        label(for="phrase") 
+            p Type in 
+                bold iwanttobecomeamember 
+            to become a member to see the author of posts
+        input(type="text" id="phrase" name="memberPhrase")
+        button(type="submit") Submit

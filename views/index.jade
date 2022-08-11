@@ -1,5 +1,26 @@
 extends layout
 
 block content
+  if !req.isAuthenticated()
+    a(href="/signup") Sign Up
+  else if req.user.status==="normal"
+    a(href="/signup/becomeamember") Become a member
+  if !req.isAuthenticated()
+    br
+    a(href="/login")  Log In
+    br
+  if req.isAuthenticated()
+    a(href="/logout") Log Out
   h1= title
-  p Welcome to #{title}
+  p=`req.user is ${req.user}`
+  p=`req.user is ${req.isAuthenticated()}`
+  each post in posts
+    div
+      if req.user.status!=="normal"
+        p= post.author
+        p= post.created_at
+      else
+        p
+          i anonymus
+          i created sometime in the past
+      p=post.content
