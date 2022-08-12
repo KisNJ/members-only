@@ -12,12 +12,13 @@ block content
         input(type="password" required name="password" id="password")
         label(for="cpassword")= "Confirm Password*"
         input(type="password" required name="confirm_password" id="cpassword")
-        div
+        label= "Choose a profile picture"
+        div(class="images")
             each picture,index in pictures
                 if index===0
                     input(type="radio", name="pictures" id=`${picture._id}` value=`${picture._id}` checked )
                 else
                     input(type="radio", name="pictures" id=`${picture._id}` value=`${picture._id}` )
                 label(for=`${picture._id}`)
-                    img(src=`${picture.link}`, alt="Profile picture")
+                    img(src=`${picture.link}` class="sign_up_image" alt="Profile picture")
         button(type="submit") Sign up

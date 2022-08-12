@@ -2,9 +2,12 @@ extends layout
 
 block content
     form(action="/signup/becomeamember", method="post")
-        label(for="phrase") 
-            p Type in 
-                bold iwanttobecomeamember 
-            to become a member to see the author of posts
+        label(for="phrase")
+            div Type in 
+            div(class="special") iwanttobecomeamember 
+            div to become a member to see the author of posts
+            //- p Type in 
+            //-     bold iwanttobecomeamember 
+            //- to become a member to see the author of posts
         input(type="text" id="phrase" name="memberPhrase")
-        button(type="submit") Submit
+        button(type="submit" class="margin_top") Submit
