@@ -1,5 +1,6 @@
 const Profile_Picture = require("../models/profile_picture");
 const User = require("../models/user");
+const Picture=require("../mdoels/profile_picture")
 const bcrypt = require("bcryptjs");
 const { default: mongoose } = require("mongoose");
 
@@ -17,6 +18,8 @@ function signUpUser(req, res) {
         if (!mongoose.isValidObjectId(req.body.pictures))
           throw new Error("invalid profile picture");
         if (err) throw new Error("error occured during password generation");
+        const picture=await Picture.findById(req.body.pictures)
+        if(picture===null) throw new Error("Bad profile picture");
         if (req.body.confirm_password !== req.body.password)
           throw new Error("password is not equal to confirmed password");
         const user=await User.create({
