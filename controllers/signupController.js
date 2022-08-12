@@ -1,6 +1,6 @@
 const Profile_Picture = require("../models/profile_picture");
 const User = require("../models/user");
-const Picture=require("../mdoels/profile_picture")
+const Picture=require("../models/profile_picture")
 const bcrypt = require("bcryptjs");
 const { default: mongoose } = require("mongoose");
 
