@@ -1,40 +1,62 @@
 extends layout
 
 block content
-  if !req.isAuthenticated()
-    a(href="/signup") Sign Up
-  else if req.user.status==="normal"
-    a(href="/signup/becomeamember") Become a member
-  if !req.isAuthenticated()
-    br
-    a(href="/login")  Log In
-    br
-  if req.isAuthenticated()
-    a(href="/logout") Log Out
-  h1= title
-  p=`req.user is ${req.user}`
-  p=`req.user is ${req.isAuthenticated()}`
+  header
+    div
+      h1= title
+      if !req.isAuthenticated()
+        a(href="/signup") Sign Up
+      else if req.user.status==="normal"
+        a(href="/signup/becomeamember") Become a member
+      if !req.isAuthenticated()
+        br
+        a(href="/login")  Log In
+        br
+      if req.isAuthenticated()
+        a(href="/logout") Log Out
   if req.isAuthenticated()
     form(action="/createpost" method="post")
-      div= `author:${req.user.username}`
-      label(for="content") 
-      input(type="text" required minlength="1" name="content" id="content")
-      button(type="submit") Submit Post
-  each post in posts
-    div
-      if !req.isAuthenticated()
-        p
-          i anonymus created sometime in the past
-      else if req.user.status!=="normal"
-        p= post.author.username
-        img(src=post.author.profile_picture.link)
-        p= post.created_at.toLocaleString()
-
-      else if req.user._id.toString()===post.author._id.toString()
-        p= post.author.username
-        img(src=post.author.profile_picture.link)
-        p= post.created_at.toLocaleString()
-      else
-        p
-          i anonymus created sometime in the past
-      p=post.content
+      div(class="post")
+        div(class="top")
+          img(class=`${user.profile_picture.link==="http://cdn.onlinewebfonts.com/svg/img_364496.png"?"regular_profile":"profile"}` src=user.profile_picture.link)
+          div(class="creator")= `${req.user.username}`
+        label(for="content" class="date") Content
+        input(type="text" required minlength="1" name="content" id="content")
+        button(type="submit") Submit Post
+  if posts.length===0
+    div(class="no") There are no posts
+  div(class="posts")
+    each post in posts
+      div(class="post")
+        if !req.isAuthenticated()
+          div(class="top")
+            img(class="regular_profile" src="http://cdn.onlinewebfonts.com/svg/img_364496.png")
+            div
+              div(class="creator") anonymus
+              div(class="date") sometime in the past
+          div(class="content")=post.content
+        else if req.user.status!=="normal"
+          div(class="top")
+            img(class=`${post.author.profile_picture.link==="http://cdn.onlinewebfonts.com/svg/img_364496.png"?"regular_profile":"profile"}` src=post.author.profile_picture.link)
+            div
+              div(class="creator")= post.author.username
+              div(class="date")= post.created_at.toLocaleString()
+          div(class="content")=post.content
+        else if req.user._id.toString()===post.author._id.toString()
+          div(class="top")
+            img(class=`${post.author.profile_picture.link==="http://cdn.onlinewebfonts.com/svg/img_364496.png"?"regular_profile":"profile"}` src=post.author.profile_picture.link)
+            div
+              div(class="creator")= post.author.username
+              div(class="date")= post.created_at.toLocaleString()
+          div(class="content")=post.content
+        else
+          div(class="top")
+            img(class="regular_profile" src="http://cdn.onlinewebfonts.com/svg/img_364496.png")
+            div
+              div(class="creator") anonymus
+              div(class="date") sometime in the past
+          div(class="content")=post.content
+        if req.isAuthenticated()&&req.user.status==="admin"
+          form(action=`/deletepost/${post._id}`, method="post")
+            button(type="submit") Delete this post 
+      

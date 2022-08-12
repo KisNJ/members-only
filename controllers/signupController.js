@@ -6,7 +6,7 @@ const { default: mongoose } = require("mongoose");
 function getSignUpPage(req, res) {
   async function run() {
     const pictures = await Profile_Picture.find();
-    res.render("sign-up", { pictures });
+    res.render("sign-up", { pictures,title:"Sign up" });
   }
   run();
 }

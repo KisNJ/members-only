@@ -1,6 +1,10 @@
 extends layout
 
 block content
+    header 
+        div
+            h1= title
+            a(href="/") Homepage
     form(action="/signup" method="POST")
         label(for="username")= "Username*"
         input(type="text" required name="username" id="username" maxlength="20")
@@ -11,9 +15,9 @@ block content
         div
             each picture,index in pictures
                 if index===0
-                    input(type="radio", name="pictures" value=`${picture._id}` checked )
+                    input(type="radio", name="pictures" id=`${picture._id}` value=`${picture._id}` checked )
                 else
-                    input(type="radio", name="pictures" value=`${picture._id}` )
+                    input(type="radio", name="pictures" id=`${picture._id}` value=`${picture._id}` )
                 label(for=`${picture._id}`)
                     img(src=`${picture.link}`, alt="Profile picture")
         button(type="submit") Sign up

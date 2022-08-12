@@ -12,7 +12,7 @@ const User=require("./models/user")
 require("dotenv").config();
 mongoose.connect(process.env.MONGO_URL);
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+var deleteRouter = require("./routes/delete");
 let signUpRouter = require("./routes/signup");
 let logInRouter=require("./routes/login")
 let logOutRouter=require("./routes/logout")
@@ -59,7 +59,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/deletepost", deleteRouter);
 app.use("/signup", signUpRouter);
 app.use("/login",logInRouter)
 app.use("/logout",logOutRouter)
